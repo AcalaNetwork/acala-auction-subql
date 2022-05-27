@@ -19,7 +19,7 @@ export async function handleNewCollateralAuction (event: SubstrateEvent) {
     const amount = (eventData[2] as Balance).toBigInt();
     const target = (eventData[3] as Balance).toBigInt();
     const blockNumber = event.block.block.header.number.toBigInt();
-    const blockHash = event.block.hash.toString();
+    const blockHash = event.block.block.hash.toString();
     const extrinsic = event.extrinsic ? event.extrinsic.extrinsic.hash.toString() : '';
     const timestamp = event.block.timestamp;
     const eventId = `${blockHash}-${event.idx.toString()}`;
