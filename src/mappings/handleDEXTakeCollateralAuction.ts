@@ -15,17 +15,18 @@ export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
 			target_stable_amount: Balance,
 		},
      */
+    const oldVersion = event.event.data.length === 4;
     const eventData = event.event.data;
     const auctionId = eventData[0].toString();
     const collateral = forceToCurrencyName(eventData[1]);
     const amount = (eventData[2] as Balance).toBigInt();
-    const supplyCollateralAmount = (eventData[3] as Balance).toBigInt();
-    const targetStableAmount = (eventData[4] as Balance).toBigInt();
+    const supplyCollateralAmount = oldVersion ? BigInt(0) : (eventData[3] as Balance).toBigInt();
+    const targetStableAmount = oldVersion ? (eventData[3] as Balance).toBigInt() : (eventData[4] as Balance).toBigInt();
     const blockNumber = event.block.block.header.number.toBigInt();
     const blockHash = event.block.hash.toString();
     const extrinsic = event.extrinsic ? event.extrinsic.extrinsic.hash.toString() : '';
     const timestamp = event.block.timestamp;
-    const eventId = `${event.block.hash}-${event.idx.toString()}`;
+    const eventId = `${blockHash}-${event.idx.toString()}`;
 
     const auction = await getCollateralAuction(auctionId);
     const dexTakeCollateralAuction = await getDEXTakeCollateralAuction(eventId);

@@ -1,6 +1,6 @@
 import { forceToCurrencyName } from '@acala-network/sdk-core';
 import { SubstrateEvent } from '@subql/types';
-import { AuctionStatus } from '../types';
+import { AuctionStatus, BidType } from '../types';
 import { getBid, getCollateralAuction } from '../utils/records'
 import type { Balance } from '@polkadot/types/interfaces/runtime';
 
@@ -21,7 +21,7 @@ export async function handleBid (event: SubstrateEvent) {
     const blockHash = event.block.hash.toString();
     const extrinsic = event.extrinsic ? event.extrinsic.extrinsic.hash.toString() : '';
     const timestamp = event.block.timestamp;
-    const eventId = `${event.block.hash}-${event.idx.toString()}`;
+    const eventId = `${blockHash}-${event.idx.toString()}`;
 
     const auction = await getCollateralAuction(auctionId);
     const bid = await getBid(eventId);
@@ -29,6 +29,7 @@ export async function handleBid (event: SubstrateEvent) {
     auction.status = AuctionStatus.IN_PROGRESS;
 
     bid.auctionId = auction.id;
+    bid.type = BidType.DENT;
     bid.bidder = bidder;
     bid.amount = amount;
     bid.timestamp = timestamp;

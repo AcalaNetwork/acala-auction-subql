@@ -1,7 +1,7 @@
 import { forceToCurrencyName } from '@acala-network/sdk-core';
 import { SubstrateEvent } from '@subql/types';
-import { AuctionStatus } from '../types';
-import { getCollateralAuction, getNewCollateralAuction } from '../utils/records'
+import { AuctionStatus, BidType } from '../types';
+import { getBid, getCollateralAuction, getNewCollateralAuction } from '../utils/records'
 import type { Balance } from '@polkadot/types/interfaces/runtime';
 
 export async function handleNewCollateralAuction (event: SubstrateEvent) {
@@ -22,10 +22,11 @@ export async function handleNewCollateralAuction (event: SubstrateEvent) {
     const blockHash = event.block.hash.toString();
     const extrinsic = event.extrinsic ? event.extrinsic.extrinsic.hash.toString() : '';
     const timestamp = event.block.timestamp;
-    const eventId = `${event.block.hash}-${event.idx.toString()}`;
+    const eventId = `${blockHash}-${event.idx.toString()}`;
 
     const auction = await getCollateralAuction(auctionId);
     const newCollateralAuction = await getNewCollateralAuction(eventId);
+    const bid = await getBid(eventId);
 
     auction.collateral = collateral;
     auction.amount = amount;
@@ -35,6 +36,7 @@ export async function handleNewCollateralAuction (event: SubstrateEvent) {
     auction.updateAt = timestamp;
     auction.createAtBlock = blockNumber;
     auction.updateAtBlock = blockNumber;
+
 
     newCollateralAuction.auctionId = auction.id;
     newCollateralAuction.collateral = collateral;
@@ -48,6 +50,15 @@ export async function handleNewCollateralAuction (event: SubstrateEvent) {
         newCollateralAuction.extrinsic = extrinsic;
     }
 
+    bid.auctionId = auction.id;
+    bid.type = BidType.KICK;
+    bid.bidder = '';
+    bid.amount = target;
+    bid.timestamp = timestamp;
+    bid.blockNumber = blockNumber;
+    bid.blockHash = blockHash;
+
     await auction.save();
     await newCollateralAuction.save();
+    await bid.save();
 }

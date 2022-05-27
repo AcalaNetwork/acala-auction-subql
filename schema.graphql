@@ -20,11 +20,11 @@ type CollateralAuction @entity {
     status: AuctionStatus!
 
     bids: [Bid] @derivedFrom(field: "auction")
-    create: NewCollateralAuction @derivedFrom(field: "auction")
-    cancel: CancelAuction @derivedFrom(field: "auction")
-    dealt: CollateralAuctionDealt @derivedFrom(field: "auction")
-    dexTake: DEXTakeCollateralAuction @derivedFrom(field: "auction")
-    abort: CollateralAuctionAborted @derivedFrom(field: "auction")
+    #create: [NewCollateralAuction] @derivedFrom(field: "auction")
+    cancel: [CancelAuction] @derivedFrom(field: "auction")
+    dealt: [CollateralAuctionDealt] @derivedFrom(field: "auction")
+    dexTake: [DEXTakeCollateralAuction] @derivedFrom(field: "auction")
+    abort: [CollateralAuctionAborted] @derivedFrom(field: "auction")
 
     createAt: Date!
     updateAt: Date!
@@ -34,7 +34,7 @@ type CollateralAuction @entity {
 
 type NewCollateralAuction @entity {
     id: ID! # event index
-    auction: CollateralAuction!
+    auction: CollateralAuction
     collateral: String!
     amount: BigInt!
     target: BigInt!

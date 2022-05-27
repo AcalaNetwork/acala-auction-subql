@@ -13,7 +13,7 @@ export async function handleCancelAuction (event: SubstrateEvent) {
     const blockHash = event.block.hash.toString();
     const extrinsic = event.extrinsic ? event.extrinsic.extrinsic.hash.toString() : '';
     const timestamp = event.block.timestamp;
-    const eventId = `${event.block.hash}-${event.idx.toString()}`;
+    const eventId = `${blockHash}-${event.idx.toString()}`;
 
     const auction = await getCollateralAuction(auctionId);
     const cancelAuction = await getCancelAuction(eventId);

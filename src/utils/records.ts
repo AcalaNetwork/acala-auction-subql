@@ -4,10 +4,10 @@ import { DEXTakeCollateralAuction } from '../types/models/DEXTakeCollateralAucti
 
 
 export async function getCollateralAuction (id: string) {
-    let record = await CollateralAuction.get(id)
+    let record = await CollateralAuction.get(id);
 
     if (!record) {
-        record = new CollateralAuction(id)
+        record = new CollateralAuction(id);
         record.collateral = '';
         record.amount = BigInt(0);
         record.target = BigInt(0);
@@ -22,10 +22,10 @@ export async function getCollateralAuction (id: string) {
 }
 
 export async function getNewCollateralAuction (id: string) {
-    let record = await NewCollateralAuction.get(id)
+    let record = await NewCollateralAuction.get(id);
 
     if (!record) {
-        record = new NewCollateralAuction(id)
+        record = new NewCollateralAuction(id);
         record.auctionId = '';
         record.collateral = '';
         record.amount = BigInt(0);
@@ -39,7 +39,7 @@ export async function getNewCollateralAuction (id: string) {
 }
 
 export async function getCancelAuction (id: string) {
-    let record = await CancelAuction.get(id)
+    let record = await CancelAuction.get(id);
 
     if (!record) {
         record = new CancelAuction(id)
@@ -53,7 +53,7 @@ export async function getCancelAuction (id: string) {
 }
 
 export async function getCollateralAuctionDealt (id: string) {
-    let record = await CollateralAuctionDealt.get(id)
+    let record = await CollateralAuctionDealt.get(id);
 
     if (!record) {
         record = new CollateralAuctionDealt(id)
@@ -71,7 +71,7 @@ export async function getCollateralAuctionDealt (id: string) {
 }
 
 export async function getDEXTakeCollateralAuction (id: string) {
-    let record = await DEXTakeCollateralAuction.get(id)
+    let record = await DEXTakeCollateralAuction.get(id);
 
     if (!record) {
         record = new DEXTakeCollateralAuction(id)
@@ -89,7 +89,7 @@ export async function getDEXTakeCollateralAuction (id: string) {
 }
 
 export async function getCollateralAuctionAborted (id: string) {
-    let record = await CollateralAuctionAborted.get(id)
+    let record = await CollateralAuctionAborted.get(id);
 
     if (!record) {
         record = new CollateralAuctionAborted(id)
@@ -107,12 +107,12 @@ export async function getCollateralAuctionAborted (id: string) {
 }
 
 export async function getBid (id: string) {
-    let record = await Bid.get(id)
+    let record = await Bid.get(id);
 
     if (!record) {
         record = new Bid(id)
-        record.type = BidType.DENT;
         record.auctionId = '';
+        record.type = BidType.DENT;
         record.bidder = '';
         record.amount = BigInt(0);
         record.timestamp = new Date(0);
