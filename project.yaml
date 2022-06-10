@@ -1,49 +1,56 @@
-specVersion: 0.2.0
-name: acala-auction
+specVersion: 1.0.0
+name: acala-auction-subql
 version: 1.0.0
-description: 'acala auction'
-repository: 'https://github.com/AcalaNetwork/acala-auction-subql'
-schema: 
-    file: ./schema.graphql
+runner:
+  node:
+    name: '@subql/node'
+    version: 1.0.0
+  query:
+    name: '@subql/query'
+    version: 1.0.0
+description: acala auction
+repository: https://github.com/AcalaNetwork/acala-auction-subql
+schema:
+  file: ./schema.graphql
 network:
- genesisHash: '0xfc41b9bd8ef8fe53d58c7ea67c794c7ec9a73daf05e6d54b14ff6342c99ba64c'
+  chainId: '0xfc41b9bd8ef8fe53d58c7ea67c794c7ec9a73daf05e6d54b14ff6342c99ba64c'
   endpoint: wss://acala-polkadot.api.onfinality.io/public-ws
   dictionary: https://api.subquery.network/sq/subquery/acala-dictionary
   chaintypes:
-    file: './src/chain-types.js'
+    file: ./src/chain-types.js
 dataSources:
-    - kind: substrate/Runtime
-      startBlock: 1
-      mapping:
-        file: './dist/index.js'
-        handlers:
-          - handler: handleNewCollateralAuction
-            kind: substrate/EventHandler
-            filter:
-              module: auctionManager
-              method: NewCollateralAuction
-          - handler: handleCancelAuction
-            kind: substrate/EventHandler
-            filter:
-              module: auctionManager
-              method: CancelAuction
-          - handler: handleCollateralAuctionDealt
-            kind: substrate/EventHandler
-            filter:
-              module: auctionManager
-              method: CollateralAuctionDealt
-          - handler: handleDEXTakeCollateralAuction
-            kind: substrate/EventHandler
-            filter:
-              module: auctionManager
-              method: DEXTakeCollateralAuction
-          - handler: handleCollateralAuctionAborted
-            kind: substrate/EventHandler
-            filter:
-              module: auctionManager
-              method: CollateralAuctionAborted
-          - handler: handleBid
-            kind: substrate/EventHandler
-            filter:
-              module: auction
-              method: Bid
+  - kind: substrate/Runtime
+    startBlock: 1
+    mapping:
+      file: ./dist/index.js
+      handlers:
+        - handler: handleNewCollateralAuction
+          kind: substrate/EventHandler
+          filter:
+            module: auctionManager
+            method: NewCollateralAuction
+        - handler: handleCancelAuction
+          kind: substrate/EventHandler
+          filter:
+            module: auctionManager
+            method: CancelAuction
+        - handler: handleCollateralAuctionDealt
+          kind: substrate/EventHandler
+          filter:
+            module: auctionManager
+            method: CollateralAuctionDealt
+        - handler: handleDEXTakeCollateralAuction
+          kind: substrate/EventHandler
+          filter:
+            module: auctionManager
+            method: DEXTakeCollateralAuction
+        - handler: handleCollateralAuctionAborted
+          kind: substrate/EventHandler
+          filter:
+            module: auctionManager
+            method: CollateralAuctionAborted
+        - handler: handleBid
+          kind: substrate/EventHandler
+          filter:
+            module: auction
+            method: Bid
