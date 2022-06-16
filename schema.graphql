@@ -1,6 +1,7 @@
 enum BidType {
     KICK,
-    DENT
+    DENT,
+    DEX_TAKE
 }
 
 enum AuctionStatus {

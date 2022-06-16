@@ -45,18 +45,20 @@ export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
     dexTakeCollateralAuction.blockNumber = blockNumber;
     dexTakeCollateralAuction.blockHash = blockHash;
 
-    if (extrinsic) {
-        dexTakeCollateralAuction.extrinsic = extrinsic;
-    }
-
     // insert a virtual bid action when dex take collateral
     bid.auctionId = auction.id;
-    bid.type = BidType.DENT;
+    bid.type = BidType.DEX_TAKE;
     bid.bidder = '';
     bid.amount = targetStableAmount;
     bid.timestamp = timestamp;
     bid.blockNumber = blockNumber;
     bid.blockHash = blockHash;
+
+    if (extrinsic) {
+        dexTakeCollateralAuction.extrinsic = extrinsic;
+        bid.extrinsic = extrinsic;
+    }
+
 
     await auction.save();
     await dexTakeCollateralAuction.save();
