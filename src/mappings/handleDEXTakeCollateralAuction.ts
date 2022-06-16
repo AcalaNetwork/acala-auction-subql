@@ -53,7 +53,7 @@ export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
     bid.auctionId = auction.id;
     bid.type = BidType.DENT;
     bid.bidder = '';
-    bid.amount = amount;
+    bid.amount = targetStableAmount;
     bid.timestamp = timestamp;
     bid.blockNumber = blockNumber;
     bid.blockHash = blockHash;
