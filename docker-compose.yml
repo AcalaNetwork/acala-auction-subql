@@ -11,7 +11,7 @@ services:
             POSTGRES_PASSWORD: postgres
 
     subquery-node:
-        image: onfinality/subql-node:latest
+        image: onfinality/subql-node:v1.0.0
         depends_on:
             - 'postgres'
         restart: always
@@ -25,10 +25,9 @@ services:
             - ./:/app
         command:
             - -f=/app
-            - --batch-size=2
 
     graphql-engine:
-        image: onfinality/subql-query:latest
+        image: onfinality/subql-query:v1.0.0
         ports:
             - 3000:3000
         depends_on:

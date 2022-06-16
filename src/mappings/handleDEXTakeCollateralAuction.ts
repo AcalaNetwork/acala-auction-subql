@@ -1,7 +1,7 @@
 import { forceToCurrencyName } from '@acala-network/sdk-core';
 import { SubstrateEvent } from '@subql/types';
-import { AuctionStatus } from '../types';
-import { getCollateralAuction, getDEXTakeCollateralAuction } from '../utils/records'
+import { AuctionStatus, BidType } from '../types';
+import { getBid, getCollateralAuction, getDEXTakeCollateralAuction } from '../utils/records'
 import type { Balance } from '@polkadot/types/interfaces/runtime';
 
 export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
@@ -30,6 +30,7 @@ export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
 
     const auction = await getCollateralAuction(auctionId);
     const dexTakeCollateralAuction = await getDEXTakeCollateralAuction(eventId);
+    const bid = await getBid(eventId);
 
     auction.status = AuctionStatus.DEX_TAKE;
     auction.updateAt = timestamp;
@@ -48,6 +49,16 @@ export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
         dexTakeCollateralAuction.extrinsic = extrinsic;
     }
 
+    // insert a virtual bid action when dex take collateral
+    bid.auctionId = auction.id;
+    bid.type = BidType.DENT;
+    bid.bidder = '';
+    bid.amount = amount;
+    bid.timestamp = timestamp;
+    bid.blockNumber = blockNumber;
+    bid.blockHash = blockHash;
+
     await auction.save();
     await dexTakeCollateralAuction.save();
+    await bid.save();
 }
