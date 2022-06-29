@@ -31,6 +31,10 @@ export async function handleCollateralAuctionAborted (event: SubstrateEvent) {
     const collateralAuctionAborted = await getCollateralAuctionAborted(eventId);
 
     auction.status = AuctionStatus.ABORT;
+    auction.updateAt = timestamp;
+    auction.updateAtBlock = blockNumber;
+    auction.endAt = timestamp;
+    auction.endAtBlock = blockNumber;
 
     collateralAuctionAborted.auctionId = auction.id;
     collateralAuctionAborted.collateral = collateral;

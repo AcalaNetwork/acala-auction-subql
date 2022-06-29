@@ -5,7 +5,6 @@ enum BidType {
 }
 
 enum AuctionStatus {
-    CREATE,
     IN_PROGRESS,
     CANCELL,
     DEALT,
@@ -16,9 +15,13 @@ enum AuctionStatus {
 type CollateralAuction @entity {
     id: ID! # auction id
     collateral: String!
+    initAmount: BigInt!
     amount: BigInt!
     target: BigInt!
     status: AuctionStatus!
+    refundRecipient: String!
+    lastBid: BigInt
+    winner: String
 
     bids: [Bid] @derivedFrom(field: "auction")
     #create: [NewCollateralAuction] @derivedFrom(field: "auction")
@@ -29,8 +32,10 @@ type CollateralAuction @entity {
 
     createAt: Date!
     updateAt: Date!
+    endAt: Date
     updateAtBlock: BigInt!
     createAtBlock: BigInt!
+    endAtBlock: BigInt
 }
 
 type NewCollateralAuction @entity {
@@ -108,9 +113,11 @@ type Bid @entity {
     auction: CollateralAuction!
     bidder: String!
     amount: BigInt!
+    collateralAmount: BigInt!
 
     timestamp: Date!
     blockNumber: BigInt!
     blockHash: String!
     extrinsic: String
+    eventIndex: Int!
 }

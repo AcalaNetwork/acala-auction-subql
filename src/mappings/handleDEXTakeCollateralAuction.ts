@@ -33,8 +33,13 @@ export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
     const bid = await getBid(eventId);
 
     auction.status = AuctionStatus.DEX_TAKE;
+    auction.winner = 'DEX';
+    auction.lastBid = targetStableAmount;
+    auction.amount = supplyCollateralAmount;
     auction.updateAt = timestamp;
     auction.updateAtBlock = blockNumber;
+    auction.endAt = timestamp;
+    auction.endAtBlock = blockNumber;
 
     dexTakeCollateralAuction.auctionId = auction.id;
     dexTakeCollateralAuction.collateral = collateral;
@@ -50,9 +55,11 @@ export async function handleDEXTakeCollateralAuction (event: SubstrateEvent) {
     bid.type = BidType.DEX_TAKE;
     bid.bidder = '';
     bid.amount = targetStableAmount;
+    bid.collateralAmount = supplyCollateralAmount;
     bid.timestamp = timestamp;
     bid.blockNumber = blockNumber;
     bid.blockHash = blockHash;
+    bid.eventIndex = Number(event.idx.toString());
 
     if (extrinsic) {
         dexTakeCollateralAuction.extrinsic = extrinsic;

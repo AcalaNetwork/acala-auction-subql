@@ -10,12 +10,14 @@ export async function getCollateralAuction (id: string) {
         record = new CollateralAuction(id);
         record.collateral = '';
         record.amount = BigInt(0);
+        record.initAmount = BigInt(0);
         record.target = BigInt(0);
-        record.status = AuctionStatus.CREATE;
+        record.status = AuctionStatus.IN_PROGRESS;
         record.createAt = new Date(0);
         record.updateAt = new Date(0);
         record.createAtBlock = BigInt(0);
         record.updateAtBlock = BigInt(0);
+        record.refundRecipient = '';
     }
 
     return record

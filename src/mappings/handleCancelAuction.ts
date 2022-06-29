@@ -21,6 +21,8 @@ export async function handleCancelAuction (event: SubstrateEvent) {
     auction.status = AuctionStatus.CANCELL;
     auction.updateAt = timestamp;
     auction.updateAtBlock = blockNumber;
+    auction.endAt = timestamp;
+    auction.endAtBlock = blockNumber;
 
     cancelAuction.auctionId = auction.id;
     cancelAuction.timestamp = timestamp;
