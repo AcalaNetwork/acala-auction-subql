@@ -22,13 +22,14 @@ type CollateralAuction @entity {
     refundRecipient: String!
     lastBid: BigInt
     winner: String
+    bidder: [String]
 
-    bids: [Bid] @derivedFrom(field: "auction")
-    #create: [NewCollateralAuction] @derivedFrom(field: "auction")
+    create: [NewCollateralAuction] @derivedFrom(field: "auction")
     cancel: [CancelAuction] @derivedFrom(field: "auction")
     dealt: [CollateralAuctionDealt] @derivedFrom(field: "auction")
     dexTake: [DEXTakeCollateralAuction] @derivedFrom(field: "auction")
     abort: [CollateralAuctionAborted] @derivedFrom(field: "auction")
+    bids: [Bid] @derivedFrom(field: "auction")
 
     createAt: Date!
     updateAt: Date!

@@ -26,12 +26,13 @@ export async function handleBid (event: SubstrateEvent) {
     const auction = await getCollateralAuction(auctionId);
     const bid = await getBid(eventId);
 
-    logger.info(event.idx.toString());
     auction.status = AuctionStatus.IN_PROGRESS;
     auction.winner = bidder;
-    auction.lastBid = amount;
 
     const inReverseStage = auction.target !== BigInt(0) && amount > auction.target;
+
+    logger.info(amount.toString())
+    logger.info(auction.target.toString())
 
     bid.auctionId = auction.id;
     bid.type = BidType.DENT;
@@ -44,12 +45,15 @@ export async function handleBid (event: SubstrateEvent) {
 
     if (inReverseStage) {
         const lastBid = (auction.lastBid && auction.lastBid > auction.target) ? auction.lastBid : auction.target;
-        const collateralAmount = auction.amount * (lastBid / amount );
+        const collateralAmount = auction.amount * (lastBid * BigInt(10 ** 18) / amount ) / BigInt( 10**18 );
 
         // reflash collateral amount in reverse stage
         auction.amount = collateralAmount;
     }
 
+    // update bidders
+    auction.bidder = [...new Set([bidder, ...(auction.bidder || [])])]
+    auction.lastBid = amount;
     bid.collateralAmount = auction.amount;
 
     if (extrinsic) {

@@ -4,10 +4,10 @@ version: 1.0.0
 runner:
   node:
     name: '@subql/node'
-    version: 1.2.1
+    version: 1.0.0
   query:
     name: '@subql/query'
-    version: 1.2.0
+    version: 1.0.0
 description: acala auction
 repository: https://github.com/AcalaNetwork/acala-auction-subql
 schema:
@@ -20,7 +20,7 @@ network:
     file: ./src/chain-types.js
 dataSources:
   - kind: substrate/Runtime
-    startBlock: 1
+    startBlock: 593877
     mapping:
       file: ./dist/index.js
       handlers:

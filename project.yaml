@@ -13,14 +13,13 @@ repository: https://github.com/AcalaNetwork/acala-auction-subql
 schema:
   file: ./schema.graphql
 network:
-  chainId: '0xbaf5aabe40646d11f0ee8abbdc64f4a4b7674925cba08e4a05ff9ebed6e2126b'
-  dictionary: https://api.subquery.network/sq/subquery/karura-dictionary
-  endpoint: wss://karura.api.onfinality.io/public-ws
+  chainId: '0xb50c458093bea113da6a62ca36d6b39fd35f6e842989011b55c9a7d2e44ca215'
+  endpoint: wss://karura-rococo.aca-dev.network
   chaintypes:
     file: ./src/chain-types.js
 dataSources:
   - kind: substrate/Runtime
-    startBlock: 593877
+    startBlock: 600000
     mapping:
       file: ./dist/index.js
       handlers:

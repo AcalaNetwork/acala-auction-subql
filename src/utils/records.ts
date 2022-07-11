@@ -18,6 +18,7 @@ export async function getCollateralAuction (id: string) {
         record.createAtBlock = BigInt(0);
         record.updateAtBlock = BigInt(0);
         record.refundRecipient = '';
+        record.bidder = [];
     }
 
     return record
